@@ -1,25 +1,38 @@
-# AI-Powered Prospect Research Pipeline
+# Informative Article Automation
 
-This repository contains an AI-powered pipeline that automates company research for a sales team. The pipeline takes a company website URL and a list of email addresses as input and outputs a concise summary, a slide deck, and notifications via Slack and email.
+## Overview
+This script automates the creation of an informative article based on the content of a provided website. The article is generated using OpenAI's API, saved as a PowerPoint presentation, and sent via email.
 
-## Features
-- Web scraping for company information
-- AI-powered text summarization
-- Slide deck generation
-- Slack and email notifications
-- Fully automated execution via GitHub Actions
-
-## Usage
+## How to Use
 
 ### Prerequisites
-1. Python 3.10 or higher.
-2. Install required dependencies: `pip install -r requirements.txt`.
-3. Set up API keys:
-   - OpenAI API Key
-   - Slack API Token
-   - Email credentials
+- Python 3.10 or higher.
+- Dependencies listed in `requirements.txt`.
+- A valid OpenAI API key set as an environment variable (`OPENAI_API_KEY`).
+- Email settings configured as environment variables (`EMAIL_ADDRESS` and `EMAIL_PASSWORD`).
 
-### Run the Pipeline
-Use the following command to execute the pipeline:
+### Setup
+1. Clone the repository and activate your virtual environment.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Configure your OpenAI API key:
+   ```bash
+   export OPENAI_API_KEY="your_api_key"
+   ```
+4. Configure your email credentials:
+   ```bash
+   export EMAIL_ADDRESS="your_email@example.com"
+   export EMAIL_PASSWORD="your_email_password"
+   ```
+
+### Execution
+Run the script by providing the website and email file:
 ```bash
-python pipeline.py --website "https://example.com" --emails "emails.txt"
+python main_content.py --website "https://example.com" --emails emails.txt
+```
+
+### Output
+- A `summary.pptx` file will be generated containing the informative article.
+- The article will be sent via email to the specified recipients.
