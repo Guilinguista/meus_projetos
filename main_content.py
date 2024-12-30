@@ -10,8 +10,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 import os
 
-# Substituir openai pela instância da Cohere
-COHERE_API_KEY = os.getenv("COHERE_API_KEY")  # Certifique-se de configurar essa variável
+# Add Cohere key
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")  l
 co = cohere.Client(COHERE_API_KEY)
 
 def get_inputs():
@@ -43,7 +43,7 @@ def generate_informative_article(text):
             f"Base text:\n{text}\n\n"
             f"Informative article:"
         ),
-        max_tokens=800,  # Adjust based on your requirements
+        max_tokens=2000,  # Adjust based on your requirements
         temperature=0.7
     )
     return response.generations[0].text.strip()
