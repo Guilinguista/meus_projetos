@@ -11,7 +11,7 @@ from email import encoders
 import os
 
 # Add Cohere key
-COHERE_API_KEY = os.getenv("COHERE_API_KEY")  l
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 co = cohere.Client(COHERE_API_KEY)
 
 def get_inputs():
@@ -48,11 +48,40 @@ def generate_informative_article(text):
     )
     return response.generations[0].text.strip()
 
+def summarize_content(content):
+    """Resuma o conteúdo para criar tópicos mais concisos."""
+    response = co.generate(
+        model="command-xlarge-nightly",
+        prompt=(
+            f"Resuma o seguinte texto em tópicos curtos e claros para uma apresentação:"
+            f"\n\n{content}\n\nResumo conciso:"
+        ),
+        max_tokens=500,
+        temperature=0.7
+    )
+    return response.generations[0].text.strip()
+
 def create_presentation(content):
     prs = Presentation()
-    slide = prs.slides.add_slide(prs.slide_layouts[1])
-    slide.shapes.title.text = "Company Overview"
-    slide.placeholders[1].text = content
+    
+    # Slide inicial
+    title_slide = prs.slides.add_slide(prs.slide_layouts[0])
+    title_slide.shapes.title.text = "Company Overview"
+    title_slide.placeholders[1].text = "The Evolution of the Electric Guitar"
+
+    # Dividir conteúdo em seções
+    sections = content.split("\n\n")  # Dividir em parágrafos
+    for i, section in enumerate(sections):
+        if len(section.strip()) > 0:
+            slide = prs.slides.add_slide(prs.slide_layouts[1])  # Título e conteúdo
+            slide.shapes.title.text = f"Seção {i + 1}"  # Adicionar título dinâmico
+            bullets = section.split(". ")  # Dividir o texto em frases
+            content_box = slide.placeholders[1]
+            
+            for bullet in bullets:
+                if bullet.strip():  # Ignorar textos vazios
+                    content_box.text += f"- {bullet.strip()}.\n"  # Adicionar como bullet point
+
     prs.save("summary.pptx")
 
 def send_email(recipients, subject, body, attachment):
