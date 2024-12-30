@@ -1,14 +1,14 @@
 # Informative Article Automation
 
 ## Overview
-This script automates the creation of an informative article based on the content of a provided website. The article is generated using OpenAI's API, saved as a PowerPoint presentation, and sent via email.
+This script automates the creation of an informative article based on the content of a provided website. The article is generated using Cohere's API, saved as a PowerPoint presentation, and sent via email.
 
 ## How to Use
 
 ### Prerequisites
 - Python 3.10 or higher.
 - Dependencies listed in `requirements.txt`.
-- A valid OpenAI API key set as an environment variable (`OPENAI_API_KEY`).
+- A valid Cohere API key set as an environment variable (`COHERE_API_KEY`).
 - Email settings configured as environment variables (`EMAIL_ADDRESS` and `EMAIL_PASSWORD`).
 
 ### Setup
@@ -17,9 +17,9 @@ This script automates the creation of an informative article based on the conten
    ```bash
    pip install -r requirements.txt
    ```
-3. Configure your OpenAI API key:
+3. Configure your Cohere API key:
    ```bash
-   export OPENAI_API_KEY="your_api_key"
+   export COHERE_API_KEY="your_cohere_api_key"
    ```
 4. Configure your email credentials:
    ```bash

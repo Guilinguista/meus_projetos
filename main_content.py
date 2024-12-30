@@ -2,7 +2,7 @@ import argparse
 import requests
 from bs4 import BeautifulSoup
 from pptx import Presentation
-import openai
+import cohere
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -10,8 +10,9 @@ from email.mime.base import MIMEBase
 from email import encoders
 import os
 
-# Configure the API key
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Retrieve the API key from an environment variable
+# Substituir openai pela instância da Cohere
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")  # Certifique-se de configurar essa variável
+co = cohere.Client(COHERE_API_KEY)
 
 def get_inputs():
     parser = argparse.ArgumentParser(description="Automate prospect company research.")
@@ -23,27 +24,29 @@ def get_inputs():
 def scrape_website(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    about_us = soup.find("section", {"id": "about"}) or soup.find("div", text="About Us")
-    return about_us.text.strip() if about_us else "About Us not found."
+
+    # Try to extract meaningful content
+    main_content = soup.find("div", {"id": "mw-content-text"})  # Specific to Wikipedia
+    if main_content:
+        return main_content.text.strip()
+
+    # Fallback if no specific content is found
+    return "Content not found on the provided webpage."
 
 def generate_informative_article(text):
     """Generates a detailed informative article based on the provided text."""
-    response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": (
+    response = co.generate(
+        model="command-xlarge-nightly",  # Replace with the appropriate model
+        prompt=(
             f"Write a detailed and informative article based on the text below. "
-            f"Make sure to include an introduction, subtitles for each section, and a conclusion.\n\n"
+            f"If the base text is insufficient, use general knowledge to complete the content.\n\n"
             f"Base text:\n{text}\n\n"
             f"Informative article:"
-        )}
-    ],
-    max_tokens=1000
-)
-
-    return response['choices'][0]['message']['content'].strip()
-
+        ),
+        max_tokens=800,  # Adjust based on your requirements
+        temperature=0.7
+    )
+    return response.generations[0].text.strip()
 
 def create_presentation(content):
     prs = Presentation()
