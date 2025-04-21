@@ -5,7 +5,7 @@ This repository consolidates my key technical projects in the areas of Machine L
 ## 📂 Included Projects
 
 - [ml-pipelines](./ml-pipelines)  
-  A collection of ML and neural network pipelines, organized by theme (classification, regression, clustering, etc.). The code is clean, translated to English, and includes visual documentation. Demonstrates fluency in Python, scikit-learn, Keras, and data workflows.
+  A collection of ML and neural network pipelines, organized by theme (classification, regression, clustering, etc.). The code is clean, in English, and includes visual documentation. The pipelines apply Python, scikit-learn, and Keras in real-world data scenarios.
 
 - [prompt-engineering-task](./prompt-engineering-task)  
   Tasks related to prompt design, evaluation, and optimization using large language models (LLMs), including RAG, CoT, and response strategies.
