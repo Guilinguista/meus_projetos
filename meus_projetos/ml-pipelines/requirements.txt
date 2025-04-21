@@ -1,9 +1,0 @@
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-tensorflow
-keras
-missingno
-tensorflow_datasets
